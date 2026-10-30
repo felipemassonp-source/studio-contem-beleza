@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stúdio Contém Beleza · por Paola Sousa</title>
+  <meta name="description" content="Stúdio Contém Beleza, por Paola Sousa. Alongamento de unhas, banho em gel, esmaltação em gel, manicure e pedicure tradicional e extensão de cílios, com hora marcada.">
+  <link rel="icon" type="image/png" href="assets/logo.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500&family=Pinyon+Script&display=swap" rel="stylesheet">
+
+  <link rel="preload" as="image" href="assets/frames/frame_001.jpg">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Butterfly symbol (continuous line, inspired by the brand mark) -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <linearGradient id="roseGold" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stop-color="#C99088"/>
+        <stop offset="55%" stop-color="#A2605F"/>
+        <stop offset="100%" stop-color="#8A4A52"/>
+      </linearGradient>
+      <symbol id="bf" viewBox="0 0 120 110">
+        <path d="M30 96 C40 86 50 70 56 52 C50 30 58 10 76 10 C96 10 100 34 86 50 C78 58 64 60 58 56 C74 56 98 62 96 82 C94 100 72 104 62 92 C56 84 56 72 58 62" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M30 96 C22 80 14 72 6 70 M30 96 C20 88 12 86 4 88" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+      </symbol>
+    </defs>
+  </svg>
+
+  <!-- ===================== HEADER ===================== -->
+  <header class="hdr" id="hdr">
+    <a class="hdr-brand" href="#top" aria-label="Stúdio Contém Beleza, início">
+      <svg class="hdr-bf" aria-hidden="true"><use href="#bf"/></svg>
+      <span>Contém Beleza</span>
+    </a>
+    <nav class="hdr-nav" aria-label="Navegação principal">
+      <a href="#top">O ritual</a>
+      <a href="#servicos">Serviços</a>
+      <a href="#paola">Paola</a>
+      <a href="#duvidas">Dúvidas</a>
+    </nav>
+    <a class="hdr-cta" href="#agendar" data-wa="Olá Paola! Gostaria de agendar um horário no Stúdio Contém Beleza.">Agendar</a>
+  </header>
+
+  <main>
+    <!-- ===================== STAGE: HERO → RITUAL → PAOLA ===================== -->
+    <section class="stage" id="top" aria-label="O ritual">
+      <div class="stage-sticky" id="stageSticky">
+
+        <!-- The arch window: holds the frame sequence -->
+        <div class="stage-window" id="stageWindow">
+          <canvas id="stageCanvas" aria-hidden="true"></canvas>
+          <div class="stage-shade" id="stageShade"></div>
+        </div>
+
+        <!-- Hero lockup (mirrors the logo) -->
+        <div class="hero-top" id="heroTop">
+          <svg class="hero-bf" viewBox="0 0 120 110" aria-hidden="true">
+            <path pathLength="1" d="M30 96 C40 86 50 70 56 52 C50 30 58 10 76 10 C96 10 100 34 86 50 C78 58 64 60 58 56 C74 56 98 62 96 82 C94 100 72 104 62 92 C56 84 56 72 58 62"/>
+            <path pathLength="1" class="bf-ant" d="M30 96 C22 80 14 72 6 70 M30 96 C20 88 12 86 4 88"/>
+          </svg>
+          <p class="hero-kicker">Stúdio</p>
+        </div>
+
+        <h1 class="hero-title">
+          <span class="sr-only">Stúdio Contém Beleza, por Paola Sousa</span>
+          <span class="hero-word hero-word-l" aria-hidden="true"><span class="hw" id="hwL">Contém</span></span>
+          <span class="hero-word hero-word-r" aria-hidden="true"><span class="hw" id="hwR">Beleza</span></span>
+        </h1>
+
+        <div class="hero-bottom" id="heroBottom">
+          <div class="ornament" aria-hidden="true"><span></span><i>✦</i><span></span></div>
+          <p class="hero-by">por Paola Sousa</p>
+        </div>
+
+        <div class="hero-foot" id="heroFoot">
+          <span class="scroll-cue"><span class="cue-line" aria-hidden="true"></span>Role para ver o ritual</span>
+          <a class="link-arrow link-arrow--sm" href="#agendar" data-wa="Olá Paola! Gostaria de agendar um horário no Stúdio Contém Beleza.">Agendar horário</a>
+        </div>
+
+        <!-- Chapters (subtitle-style, synced to frames) -->
+        <div class="chapters" aria-live="off">
+          <div class="chapter" data-chapter="0">
+            <span class="ch-num">I · O toque</span>
+            <p class="ch-text">Tudo começa na preparação. <em>A lâmina limpa, a cutícula respeitada.</em></p>
+          </div>
+          <div class="chapter" data-chapter="1">
+            <span class="ch-num">II · O gesto</span>
+            <p class="ch-text">Uma pincelada firme, <em>que nivela sem pesar.</em></p>
+          </div>
+          <div class="chapter" data-chapter="2">
+            <span class="ch-num">III · O brilho</span>
+            <p class="ch-text">O acabamento que dura semanas <em>e se nota de longe.</em></p>
+          </div>
+        </div>
+
+        <ol class="ch-track" id="chTrack" aria-hidden="true">
+          <li>I</li><li>II</li><li>III</li>
+        </ol>
+
+        <!-- Final state of the stage: the artist -->
+        <div class="manifesto" id="manifesto">
+          <div class="manifesto-inner" id="manifestoInner">
+            <p class="eyebrow">Por trás de cada detalhe</p>
+            <h2 class="display">As mãos de <em>Paola Sousa.</em></h2>
+            <p class="lead">Um estúdio pequeno, de propósito. Uma cliente por vez, tempo para fazer com calma e um olhar atento a cada milímetro, das unhas aos cílios.</p>
+            <div class="actions">
+              <a class="btn" href="#agendar" data-wa="Olá Paola! Gostaria de agendar um horário no Stúdio Contém Beleza.">Agendar horário</a>
+              <a class="link-arrow" href="#servicos">Ver serviços</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ===================== SERVIÇOS ===================== -->
+    <section class="section" id="servicos">
+      <div class="wrap">
+        <div class="ornament ornament--section reveal" aria-hidden="true"><span></span><i>✦</i><span></span></div>
+
+        <div class="sec-head">
+          <div>
+            <p class="eyebrow reveal">Serviços</p>
+            <h2 class="display reveal-lines">
+              <span class="ln"><span>Cinco rituais,</span></span>
+              <span class="ln" style="--d:1"><span><em>um mesmo cuidado.</em></span></span>
+            </h2>
+          </div>
+          <p class="lead reveal" style="--d:2">Cada atendimento é individual e com hora marcada. Toque em um serviço para ver os detalhes e agendar.</p>
+        </div>
+
+        <div class="svc-grid">
+          <div class="svc-visual" aria-hidden="true">
+            <div class="svc-arch">
+              <img src="assets/service-alongamento.jpg" class="is-on" data-i="0" alt="">
+              <img src="assets/service-banho-gel.jpg" data-i="1" alt="" loading="lazy">
+              <img src="assets/service-esmaltacao.jpg" data-i="2" alt="" loading="lazy">
+              <img src="assets/service-manicure-pedicure.jpg" data-i="3" alt="" loading="lazy">
+              <img src="assets/service-cilios.jpg" data-i="4" alt="" loading="lazy">
+            </div>
+            <p class="svc-caption"><span id="svcCapNum">01</span><em id="svcCapName">Alongamento de unhas</em></p>
+          </div>
+
+          <div class="svc-list" id="svcList">
+            <details class="svc-item reveal" name="servicos" data-name="Alongamento de unhas" data-meta="Fibra ou gel">
+              <summary>
+                <span class="svc-num">01</span>
+                <span class="svc-name">Alongamento de unhas</span>
+                <span class="svc-meta">Fibra ou gel</span>
+                <span class="svc-plus" aria-hidden="true"></span>
+              </summary>
+              <div class="svc-body">
+                <img class="svc-thumb" src="assets/service-alongamento.jpg" alt="Alongamento de unhas em formato amendoado com acabamento em gel rosado" loading="lazy">
+                <p>Comprimento e formato sob medida, com estrutura fina e resistente. A unha fica elegante, leve e com aparência natural.</p>
+                <ul class="svc-points">
+                  <li>Formatos almond, bailarina, quadrada ou stiletto</li>
+                  <li>Manutenção a cada 21 a 28 dias</li>
+                </ul>
+                <a class="link-arrow" href="#agendar" data-wa="Olá Paola! Gostaria de agendar um alongamento de unhas.">Agendar alongamento</a>
+              </div>
+            </details>
+
+            <details class="svc-item reveal" name="servicos" data-name="Banho em gel" data-meta="Unha natural" style="--d:1">
+              <summary>
+                <span class="svc-num">02</span>
+                <span class="svc-name">Banho em gel</span>
+                <span class="svc-meta">Unha natural</span>
+                <span class="svc-plus" aria-hidden="true"></span>
+              </summary>
+              <div class="svc-body">
+                <img class="svc-thumb" src="assets/service-banho-gel.jpg" alt="Pincel rose gold aplicando camada protetora de banho em gel sobre a unha natural" loading="lazy">
+                <p>Uma camada de proteção sobre a sua própria unha, para que ela cresça forte, sem lascar e sem descamar.</p>
+                <ul class="svc-points">
+                  <li>Mantém o seu comprimento natural</li>
+                  <li>Ideal para unhas finas ou quebradiças</li>
+                </ul>
+                <a class="link-arrow" href="#agendar" data-wa="Olá Paola! Gostaria de agendar um banho em gel.">Agendar banho em gel</a>
+              </div>
+            </details>
+
+            <details class="svc-item reveal" name="servicos" data-name="Esmaltação em gel" data-meta="Secagem em LED" style="--d:2">
+              <summary>
+                <span class="svc-num">03</span>
+                <span class="svc-name">Esmaltação em gel</span>
+                <span class="svc-meta">Secagem em LED</span>
+                <span class="svc-plus" aria-hidden="true"></span>
+              </summary>
+              <div class="svc-body">
+                <img class="svc-thumb" src="assets/service-esmaltacao.jpg" alt="Unhas esmaltadas em gel rosé marsala com brilho espelhado" loading="lazy">
+                <p>Cor intensa e brilho espelhado, com secagem imediata. Você sai do estúdio sem medo de borrar.</p>
+                <ul class="svc-points">
+                  <li>Brilho que dura de duas a três semanas</li>
+                  <li>Cartela de nudes, rosados e clássicos</li>
+                </ul>
+                <a class="link-arrow" href="#agendar" data-wa="Olá Paola! Gostaria de agendar uma esmaltação em gel.">Agendar esmaltação</a>
+              </div>
+            </details>
+
+            <details class="svc-item reveal" name="servicos" data-name="Manicure & pedicure" data-meta="Tradicional" style="--d:3">
+              <summary>
+                <span class="svc-num">04</span>
+                <span class="svc-name">Manicure &amp; pedicure</span>
+                <span class="svc-meta">Tradicional</span>
+                <span class="svc-plus" aria-hidden="true"></span>
+              </summary>
+              <div class="svc-body">
+                <img class="svc-thumb" src="assets/service-manicure-pedicure.jpg" alt="Cuidado clássico de manicure e pedicure com toalhas de linho e óleo hidratante" loading="lazy">
+                <p>O cuidado clássico, feito com calma: cutilagem delicada, hidratação e esmaltação com contorno limpo.</p>
+                <ul class="svc-points">
+                  <li>Lixas e palitos individuais</li>
+                  <li>Instrumentos higienizados a cada cliente</li>
+                </ul>
+                <a class="link-arrow" href="#agendar" data-wa="Olá Paola! Gostaria de agendar manicure e pedicure.">Agendar manicure &amp; pedicure</a>
+              </div>
+            </details>
+
+            <details class="svc-item reveal" name="servicos" data-name="Extensão de cílios" data-meta="Fio a fio ou volume" style="--d:4">
+              <summary>
+                <span class="svc-num">05</span>
+                <span class="svc-name">Extensão de cílios</span>
+                <span class="svc-meta">Fio a fio ou volume</span>
+                <span class="svc-plus" aria-hidden="true"></span>
+              </summary>
+              <div class="svc-body">
+                <img class="svc-thumb" src="assets/service-cilios.jpg" alt="Aplicação delicada de extensão de cílios com pinça rose gold" loading="lazy">
+                <p>Desenhada para o formato dos seus olhos, sem pesar nos fios naturais. Você acorda pronta, sem rímel.</p>
+                <ul class="svc-points">
+                  <li>Mapeamento personalizado do olhar</li>
+                  <li>Manutenção a cada 15 a 21 dias</li>
+                </ul>
+                <a class="link-arrow" href="#agendar" data-wa="Olá Paola! Gostaria de agendar uma extensão de cílios.">Agendar extensão de cílios</a>
+              </div>
+            </details>
+          </div>
+        </div>
+
+        <!-- Floating arch preview that emerges on service title hover -->
+        <div class="svc-float" id="svcFloat" aria-hidden="true">
+          <div class="svc-float-card" id="svcFloatCard">
+            <div class="svc-float-arch">
+              <img src="assets/service-alongamento.jpg" class="is-on" data-float-i="0" alt="">
+              <img src="assets/service-banho-gel.jpg" data-float-i="1" alt="">
+              <img src="assets/service-esmaltacao.jpg" data-float-i="2" alt="">
+              <img src="assets/service-manicure-pedicure.jpg" data-float-i="3" alt="">
+              <img src="assets/service-cilios.jpg" data-float-i="4" alt="">
+            </div>
+            <div class="svc-float-badge">
+              <span id="svcFloatNum">01</span>
+              <em id="svcFloatName">Alongamento de unhas</em>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== PAOLA ===================== -->
+    <section class="section section--paola" id="paola">
+      <div class="wrap paola-grid">
+        <figure class="portrait reveal">
+          <div class="portrait-frame" id="portraitFrame">
+            <img src="assets/paola-profile.jpg" alt="Paola Sousa, fundadora do Stúdio Contém Beleza, com o avental do estúdio" loading="lazy">
+          </div>
+          <figcaption>Paola Sousa · fundadora</figcaption>
+        </figure>
+
+        <div class="paola-text">
+          <p class="eyebrow reveal">A profissional</p>
+          <blockquote class="quote reveal-lines">
+            <span class="ln"><span>“Unhas bem feitas não são luxo.</span></span>
+            <span class="ln" style="--d:1"><span>São a forma mais delicada</span></span>
+            <span class="ln" style="--d:2"><span><em>de cuidar de si.”</em></span></span>
+          </blockquote>
+          <p class="lead reveal">A borboleta do estúdio fala de transformação leve. É assim que a Paola trabalha: escuta o que você quer, olha para as suas mãos e para a sua rotina, e desenha o resultado a partir daí.</p>
+          <p class="signature reveal" aria-hidden="true">Paola Sousa</p>
+
+          <ol class="principles">
+            <li class="reveal"><span class="pr-num">01</span><h3>Material esterilizado</h3><p>Instrumentos higienizados e esterilizados a cada atendimento; lixas e palitos individuais.</p></li>
+            <li class="reveal" style="--d:1"><span class="pr-num">02</span><h3>Hora marcada</h3><p>Uma cliente por vez, sem pressa e sem espera.</p></li>
+            <li class="reveal" style="--d:2"><span class="pr-num">03</span><h3>Produtos profissionais</h3><p>Géis e esmaltes escolhidos para preservar a unha natural.</p></li>
+            <li class="reveal" style="--d:3"><span class="pr-num">04</span><h3>Formato sob medida</h3><p>Comprimento e desenho pensados para as suas mãos.</p></li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== DÚVIDAS ===================== -->
+    <section class="section" id="duvidas">
+      <div class="wrap faq-grid">
+        <div>
+          <p class="eyebrow reveal">Dúvidas</p>
+          <h2 class="display reveal-lines">
+            <span class="ln"><span>Antes de</span></span>
+            <span class="ln" style="--d:1"><span><em>agendar.</em></span></span>
+          </h2>
+          <p class="lead reveal">Ficou alguma pergunta? <a class="inline-link" href="#agendar" data-wa="Olá Paola! Tenho uma dúvida sobre os serviços.">Fale com a Paola</a>.</p>
+        </div>
+
+        <div class="faq-list">
+          <details class="faq-item reveal" name="faq" open>
+            <summary><span>O gel enfraquece a unha natural?</span><span class="svc-plus" aria-hidden="true"></span></summary>
+            <div class="faq-body"><p>Não. O que enfraquece a unha é lixar demais ou arrancar o produto em casa. A preparação aqui é suave e a remoção é feita no estúdio, com técnica.</p></div>
+          </details>
+          <details class="faq-item reveal" name="faq" style="--d:1">
+            <summary><span>Qual a diferença entre alongamento, banho e esmaltação em gel?</span><span class="svc-plus" aria-hidden="true"></span></summary>
+            <div class="faq-body"><p>O alongamento cria comprimento e formato novos. O banho em gel protege a sua unha no comprimento atual. A esmaltação em gel é a cor de longa duração sobre a unha natural.</p></div>
+          </details>
+          <details class="faq-item reveal" name="faq" style="--d:2">
+            <summary><span>De quanto em quanto tempo faço manutenção?</span><span class="svc-plus" aria-hidden="true"></span></summary>
+            <div class="faq-body"><p>Para unhas, entre 21 e 28 dias. Para cílios, entre 15 e 21 dias. Depende do crescimento e dos seus cuidados no dia a dia.</p></div>
+          </details>
+          <details class="faq-item reveal" name="faq" style="--d:3">
+            <summary><span>Preciso remarcar. Como faço?</span><span class="svc-plus" aria-hidden="true"></span></summary>
+            <div class="faq-body"><p>É só avisar pelo WhatsApp com pelo menos 24 horas de antecedência, para que o horário possa ser oferecido a outra cliente.</p></div>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== AGENDAR / FOOTER ===================== -->
+    <section class="closing" id="agendar">
+      <div class="wrap">
+        <svg class="closing-bf" aria-hidden="true"><use href="#bf"/></svg>
+        <p class="eyebrow eyebrow--light reveal">Agenda</p>
+        <h2 class="display display--light reveal-lines">
+          <span class="ln"><span>Reserve o seu</span></span>
+          <span class="ln" style="--d:1"><span><em>momento.</em></span></span>
+        </h2>
+
+        <ol class="steps">
+          <li class="reveal"><span>01</span><h3>Chame no WhatsApp</h3><p>Conte qual serviço você deseja.</p></li>
+          <li class="reveal" style="--d:1"><span>02</span><h3>Escolha o horário</h3><p>A Paola confirma a melhor data para você.</p></li>
+          <li class="reveal" style="--d:2"><span>03</span><h3>Viva o ritual</h3><p>Chegue, relaxe e saia renovada.</p></li>
+        </ol>
+
+        <div class="actions actions--center reveal">
+          <a class="btn btn--light" href="#agendar" data-wa="Olá Paola! Vim pelo site e gostaria de agendar um horário.">
+            <svg viewBox="0 0 24 24" width="17" height="17" fill="currentColor" aria-hidden="true"><path d="M.057 24l1.687-6.163a11.867 11.867 0 01-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.82 11.82 0 018.413 3.488 11.824 11.824 0 013.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 01-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+            Agendar pelo WhatsApp
+          </a>
+          <a class="btn btn--ghost-light" href="#agendar" data-ig>
+            <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.8" fill="currentColor"/></svg>
+            Ver no Instagram
+          </a>
+        </div>
+
+        <footer class="footer">
+          <div class="footer-brand">
+            <img src="assets/logo.png" alt="Logo Stúdio Contém Beleza" width="48" height="48" loading="lazy">
+            <div>
+              <p class="footer-name">Stúdio Contém Beleza</p>
+              <p class="footer-by">por Paola Sousa · atendimento com hora marcada</p>
+            </div>
+          </div>
+          <nav class="footer-nav" aria-label="Rodapé">
+            <a href="#top">O ritual</a>
+            <a href="#servicos">Serviços</a>
+            <a href="#paola">Paola</a>
+            <a href="#duvidas">Dúvidas</a>
+          </nav>
+          <p class="footer-copy">© 2026 Stúdio Contém Beleza</p>
+        </footer>
+      </div>
+    </section>
+  </main>
+
+  <a class="float-wa" id="floatWa" href="#agendar" data-wa="Olá Paola! Gostaria de agendar um horário no Stúdio Contém Beleza." aria-label="Agendar pelo WhatsApp">
+    <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true"><path d="M.057 24l1.687-6.163a11.867 11.867 0 01-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.82 11.82 0 018.413 3.488 11.824 11.824 0 013.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 01-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+  </a>
+
+  <script src="script.js"></script>
+</body>
+</html>
