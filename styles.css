@@ -159,7 +159,7 @@ a { color: inherit; }
   font-family: var(--serif); font-size: 1.15rem; font-weight: 500;
   letter-spacing: 0.14em; text-transform: uppercase;
 }
-.hdr-bf { width: 26px; height: 24px; color: var(--rose); }
+.hdr-bf { width: 22px; height: 26px; color: var(--rose); }
 
 .hdr-nav { display: none; gap: 36px; }
 .hdr-nav a {
@@ -225,18 +225,42 @@ a { color: inherit; }
   display: flex; flex-direction: column; align-items: center;
   will-change: transform, opacity;
 }
-.hero-top { top: calc(var(--ay) - 132px); gap: 12px; }
+.hero-top { top: calc(var(--ay) - 46px); gap: 12px; }
 .hero-bottom { top: calc(var(--ay) + var(--ah) + 26px); gap: 12px; }
 
-.hero-bf { width: 64px; height: 58px; overflow: visible; }
-.hero-bf path {
-  fill: none; stroke: url(#roseGold); stroke-width: 2.2;
+/* --- Brand mark inside the arch (fades out as scrolling starts) --- */
+.stage-mark {
+  position: absolute; inset: 0;
+  background: radial-gradient(circle at 50% calc(var(--ay) + var(--ah) * 0.5), #FFF7F6 0%, var(--blush) 38%, var(--blush-deep) 75%);
+  will-change: opacity;
+}
+.mark-bf {
+  position: absolute; left: 50%;
+  top: calc(var(--ay) + var(--ah) * 0.52);
+  width: calc(var(--aw) * 0.5); height: auto;
+  translate: -50% -50%;
+  overflow: visible;
+}
+.mark-bf path {
+  fill: none; stroke: url(#roseGold); stroke-width: 4;
   stroke-linecap: round; stroke-linejoin: round;
   stroke-dasharray: 1; stroke-dashoffset: 1;
-  animation: drawLine 2.4s cubic-bezier(0.65, 0, 0.35, 1) 0.2s forwards;
+  animation: drawLine 2.6s cubic-bezier(0.65, 0, 0.35, 1) 0.6s forwards;
 }
-.hero-bf .bf-ant { stroke-width: 1.6; animation-delay: 1.9s; animation-duration: 0.9s; }
+.mark-bf .bf-tail { stroke-width: 3; animation-delay: 3s; animation-duration: 0.5s; }
+.mark-bf .bf-ant { stroke-width: 2; animation-delay: 3.2s; animation-duration: 0.9s; }
 @keyframes drawLine { to { stroke-dashoffset: 0; } }
+
+/* --- Load-in sequence (individual translate/scale/clip-path so JS-driven transform & opacity stay free) --- */
+.stage-window { animation: archRise 1.4s var(--ease-expo) 0.1s both; }
+.hero-word { animation: wordMask 1.3s var(--ease-expo) 0.55s both; }
+.hero-word-r { animation-delay: 0.7s; }
+.hero-kicker, .hero-bottom > *, .hero-foot > * { animation: softIn 1s var(--ease-out) 1.1s both; }
+.hero-bottom > :last-child { animation-delay: 1.25s; }
+.hero-foot > * { animation-delay: 1.5s; }
+@keyframes archRise { from { opacity: 0; scale: 0.94; translate: 0 32px; } }
+@keyframes wordMask { from { clip-path: inset(0 0 100% 0); translate: 0 0.35em; } to { clip-path: inset(0 0 -20% 0); } }
+@keyframes softIn { from { opacity: 0; translate: 0 10px; } }
 
 .hero-kicker {
   font-size: 0.8rem; font-weight: 400;
@@ -306,13 +330,21 @@ a { color: inherit; }
   color: rgba(255, 247, 246, 0.86);
   margin-bottom: 14px;
 }
-.ch-num::before { content: ''; width: 28px; height: 1px; background: currentColor; }
+.ch-num::before {
+  content: ''; width: 28px; height: 1px; background: currentColor;
+  transform: scaleX(0); transform-origin: left;
+  transition: transform 900ms var(--ease-expo) 100ms;
+}
+.chapter.is-on .ch-num::before { transform: scaleX(1); }
 .ch-text {
   font-family: var(--serif); font-weight: 300;
   font-size: clamp(1.9rem, 3.4vw, 3rem);
   line-height: 1.08;
   text-shadow: 0 2px 24px rgba(40, 14, 19, 0.25);
+  clip-path: inset(0 0 100% 0); translate: 0 0.5em;
+  transition: clip-path 1000ms var(--ease-expo) 120ms, translate 1000ms var(--ease-expo) 120ms;
 }
+.chapter.is-on .ch-text { clip-path: inset(-10% -5% -20% -5%); translate: 0 0; }
 .ch-text em { font-style: italic; color: #F9DADA; }
 
 .ch-track {
@@ -321,6 +353,11 @@ a { color: inherit; }
   font-family: var(--serif); font-style: italic; font-size: 1.05rem;
   color: var(--paper); opacity: 0; pointer-events: none;
 }
+.ch-track::before, .ch-track::after {
+  content: ''; position: absolute; left: 0; right: 0; bottom: -12px; height: 1px;
+  background: currentColor; opacity: 0.25;
+}
+.ch-track::after { opacity: 1; transform: scaleX(var(--chp, 0)); transform-origin: left; }
 .ch-track li { opacity: 0.4; transition: opacity var(--med) var(--ease-out); }
 .ch-track li.on { opacity: 1; }
 
@@ -339,9 +376,8 @@ a { color: inherit; }
 
 /* --- Mobile stage layout --- */
 @media (max-width: 767px) {
-  .hero-top { top: calc(var(--ay) - 13vw - 112px); }
+  .hero-top { top: calc(var(--ay) - 13vw - 50px); }
   .hero-bottom { top: calc(var(--ay) + var(--ah) + 13vw + 20px); }
-  .hero-bf { width: 52px; height: 47px; }
   .hero-word { left: 0; right: 0; text-align: center; transform: none; }
   .hero-word-l { top: auto; bottom: calc(100% - var(--ay) + 8px); right: 0; }
   .hero-word-r { top: calc(var(--ay) + var(--ah) + 6px); left: 0; }
@@ -637,7 +673,19 @@ details[open] > summary .svc-plus::after { transform: rotate(0deg); }
   text-align: center;
   margin-top: 40px;
 }
-.closing-bf { width: 54px; height: 50px; color: var(--rose-light); margin: 0 auto 26px; display: block; }
+/* Dome swells as the closing section arrives (progressive: static where unsupported) */
+@supports (animation-timeline: view()) {
+  .closing {
+    animation: domeRise linear both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 70%;
+  }
+  @keyframes domeRise {
+    from { border-top-left-radius: 50vw 24px; border-top-right-radius: 50vw 24px; }
+    to { border-top-left-radius: 50vw 160px; border-top-right-radius: 50vw 160px; }
+  }
+}
+.closing-bf { width: 48px; height: 56px; color: var(--rose-light); margin: 0 auto 26px; display: block; }
 .closing .display { margin-bottom: clamp(56px, 8vh, 80px); }
 .closing .eyebrow { justify-content: center; }
 
@@ -694,11 +742,40 @@ details[open] > summary .svc-plus::after { transform: rotate(0deg); }
    ========================================================================== */
 .reveal {
   opacity: 0;
-  transform: translate3d(0, 22px, 0);
-  transition: opacity 800ms var(--ease-out), transform 800ms var(--ease-out);
-  transition-delay: calc(var(--d, 0) * 80ms);
+  transform: translate3d(0, 18px, 0);
+  transition: opacity 600ms var(--ease-out), transform 600ms var(--ease-out);
+  transition-delay: calc(var(--d, 0) * 70ms);
 }
 .reveal.is-in { opacity: 1; transform: none; }
+
+/* Small copy: fade only, no travel */
+p.reveal { transform: none; }
+
+/* Signature writes itself left → right */
+.signature.reveal {
+  opacity: 1; clip-path: inset(0 100% 0 0);
+  transition: clip-path 1600ms cubic-bezier(0.65, 0, 0.35, 1) 300ms;
+}
+.signature.reveal.is-in { clip-path: inset(-20% -10% -20% 0); }
+
+/* Images: unveil through the brand arch / circle */
+.reveal-arch {
+  opacity: 1; transform: none;
+  clip-path: inset(100% 0 0 0 round 999px 999px 6px 6px);
+  transition: clip-path 1300ms var(--ease-expo);
+}
+.reveal-arch.is-in { clip-path: inset(0 0 0 0 round 999px 999px 6px 6px); }
+.reveal-arch img.is-on { scale: 1.14; transition: opacity 520ms var(--ease-out), transform 900ms var(--ease-expo), scale 1800ms var(--ease-expo); }
+.reveal-arch.is-in img.is-on { scale: 1; }
+
+.portrait.reveal { transform: none; }
+.portrait.reveal .portrait-frame img {
+  clip-path: circle(0% at 50% 65%); scale: 1.18;
+  transition: clip-path 1400ms var(--ease-expo) 100ms, scale 1800ms var(--ease-expo) 100ms;
+}
+.portrait.reveal.is-in .portrait-frame img { clip-path: circle(48% at 50% 50%); scale: 1; }
+.portrait.reveal .portrait-frame::before { scale: 0.85; opacity: 0; transition: scale 1400ms var(--ease-expo) 250ms, opacity 800ms var(--ease-out) 250ms; }
+.portrait.reveal.is-in .portrait-frame::before { scale: 1; opacity: 1; }
 
 .ornament.reveal span { transform: scaleX(0); transition: transform 900ms var(--ease-expo) 120ms; }
 .ornament.reveal span:first-child { transform-origin: right; }
@@ -706,7 +783,7 @@ details[open] > summary .svc-plus::after { transform: rotate(0deg); }
 .ornament.reveal.is-in span { transform: scaleX(1); }
 
 .ln { display: block; overflow: hidden; padding-bottom: 0.06em; }
-.ln > span { display: block; transform: translate3d(0, 108%, 0); transition: transform 950ms var(--ease-expo); transition-delay: calc(var(--d, 0) * 90ms); }
+.ln > span { display: block; transform: translate3d(0, 108%, 0); transition: transform 800ms var(--ease-expo); transition-delay: calc(var(--d, 0) * 80ms); }
 .reveal-lines.is-in .ln > span { transform: none; }
 
 /* ==========================================================================
@@ -714,7 +791,10 @@ details[open] > summary .svc-plus::after { transform: rotate(0deg); }
    ========================================================================== */
 @media (prefers-reduced-motion: reduce) {
   .reveal, .ln > span, .ornament.reveal span { transform: none !important; transition: opacity 200ms linear !important; }
-  .hero-bf path { animation: none; stroke-dashoffset: 0; }
+  .mark-bf path { animation: none; stroke-dashoffset: 0; }
   .cue-line::after { animation: none; }
   .svc-arch img { transition: opacity 200ms linear; transform: none; }
+  .stage-window, .hero-word, .hero-kicker, .hero-bottom > *, .hero-foot > *, .closing { animation: none !important; }
+  .ch-text, .signature.reveal, .reveal-arch, .portrait.reveal .portrait-frame img { clip-path: none !important; translate: none !important; scale: none !important; }
+  .ch-num::before { transform: none; }
 }

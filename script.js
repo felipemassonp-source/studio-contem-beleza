@@ -79,6 +79,8 @@
     const win = document.getElementById('stageWindow');
     const canvas = document.getElementById('stageCanvas');
     const shade = document.getElementById('stageShade');
+    const mark = document.getElementById('stageMark');
+    const markBf = document.getElementById('markBf');
 
     const heroTop = document.getElementById('heroTop');
     const heroBottom = document.getElementById('heroBottom');
@@ -92,6 +94,7 @@
 
     const manifesto = document.getElementById('manifesto');
     const manifestoInner = document.getElementById('manifestoInner');
+    const manifestoParts = manifestoInner ? Array.from(manifestoInner.children) : [];
 
     if (!stage || !sticky || !win || !canvas) return;
 
@@ -270,7 +273,7 @@
       ctx.fillStyle = '#F6DCDD';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-      const scrubT = invLerp(0.04, 0.72, p);
+      const scrubT = invLerp(0.05, 0.72, p);
       const frameIdx = Math.round(scrubT * (TOTAL_FRAMES - 1));
       const activeFrame = getNearestLoadedFrame(frameIdx);
 
@@ -290,6 +293,14 @@
         drawInBox(studioImg, boxX, boxY, boxW, boxH, studioZoom, 0.5, 0.35);
         ctx.restore();
       }
+
+      // Brand mark: holds the arch until scrolling starts, then dissolves into the ritual frames (0.00 -> 0.06)
+      const markT = easeInOutCubic(invLerp(0.005, 0.06, p));
+      if (mark) {
+        mark.style.opacity = (1 - markT).toFixed(3);
+        mark.style.visibility = markT >= 1 ? 'hidden' : 'visible';
+      }
+      if (markBf) markBf.style.scale = (1 + markT * 0.12).toFixed(3);
 
       // 3. Hero Lockup Parting (0.00 -> 0.17)
       const heroMove = easeOutCubic(invLerp(0.00, 0.18, p));
@@ -323,18 +334,22 @@
       const shadeOut = 1 - invLerp(0.66, 0.76, p);
       const shadeAlpha = Math.min(shadeIn, shadeOut);
       if (shade) shade.style.opacity = shadeAlpha.toFixed(3);
-      if (chTrack) chTrack.style.opacity = shadeAlpha.toFixed(3);
+      if (chTrack) {
+        chTrack.style.opacity = shadeAlpha.toFixed(3);
+        chTrack.style.setProperty('--chp', invLerp(0.17, 0.73, p).toFixed(4));
+      }
 
       chapters.forEach((ch, i) => {
         const [sIn, eIn, sOut, eOut] = chapterRanges[i];
         let alpha = 0;
-        let y = 22;
+        let y = 0;
+
+        // Entry is a CSS line-mask (.is-on); scroll drives only the fade and the exit drift
+        ch.classList.toggle('is-on', p >= sIn && p <= eOut);
 
         if (p >= sIn && p <= eOut) {
           if (p < eIn) {
-            const t = easeOutCubic(invLerp(sIn, eIn, p));
-            alpha = t;
-            y = lerp(22, 0, t);
+            alpha = easeOutCubic(invLerp(sIn, eIn, p));
           } else if (p <= sOut) {
             alpha = 1;
             y = 0;
@@ -353,11 +368,19 @@
         }
       });
 
-      // 5. Final Artist Manifesto (0.80 -> 0.96)
-      const manT = easeOutCubic(invLerp(0.80, 0.96, p));
+      // 5. Final Artist Manifesto, staggered: eyebrow → title (masked) → lead → actions (0.80 -> 0.99)
+      const manT = easeOutCubic(invLerp(0.80, 0.90, p));
       if (manifestoInner) {
-        manifestoInner.style.opacity = manT.toFixed(3);
-        manifestoInner.style.transform = `translate3d(0, ${((1 - manT) * 26).toFixed(1)}px, 0)`;
+        manifestoInner.style.opacity = 1;
+        manifestoParts.forEach((el, i) => {
+          const s = 0.80 + i * 0.03;
+          const t = easeOutCubic(invLerp(s, s + 0.1, p));
+          el.style.opacity = t.toFixed(3);
+          el.style.transform = `translate3d(0, ${((1 - t) * 24).toFixed(1)}px, 0)`;
+          if (el.tagName === 'H2') {
+            el.style.clipPath = `inset(-10% -5% ${((1 - t) * 100).toFixed(1)}% -5%)`;
+          }
+        });
       }
       if (manifesto) {
         manifesto.style.pointerEvents = manT > 0.65 ? 'auto' : 'none';
@@ -374,16 +397,21 @@
       startLoop();
     };
 
-    const tick = () => {
+    let lastT = 0;
+    const tick = (now) => {
       const diff = targetP - currentP;
       if (Math.abs(diff) > 0.0004) {
-        currentP += diff * 0.14;
+        // Frame-rate independent easing (same feel at 60Hz and 120Hz)
+        const dt = lastT ? Math.min(now - lastT, 64) : 16.667;
+        lastT = now;
+        currentP += diff * (1 - Math.pow(1 - 0.12, dt / 16.667));
         render(currentP);
         rafId = requestAnimationFrame(tick);
       } else {
         currentP = targetP;
         render(currentP);
         rafId = null;
+        lastT = 0;
       }
     };
 
@@ -587,14 +615,21 @@
         (entries) => {
           entries.forEach((entry) => {
             if (entry.isIntersecting) {
-              entry.target.classList.add('is-in');
+              (proxied.get(entry.target) || [entry.target]).forEach((el) => el.classList.add('is-in'));
               io.unobserve(entry.target);
             }
           });
         },
-        { threshold: 0.16, rootMargin: '0px 0px -6% 0px' }
+        { threshold: 0.04, rootMargin: '0px 0px -2% 0px' }
       );
-      revealEls.forEach((el) => io.observe(el));
+      // Fully clipped elements never intersect, so watch their parent instead
+      const proxied = new Map();
+      revealEls.forEach((el) => {
+        if (!el.matches('.signature, .reveal-arch')) return io.observe(el);
+        const host = el.parentElement;
+        proxied.set(host, [...(proxied.get(host) || []), el]);
+        io.observe(host);
+      });
     } else {
       revealEls.forEach((el) => el.classList.add('is-in'));
     }
@@ -615,6 +650,36 @@
     }
   };
 
+  /* ---------- Magnetic Buttons (fine pointers only) ---------- */
+  const initMagnetic = () => {
+    if (prefersReducedMotion || !window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+
+    document.querySelectorAll('.btn, .hdr-cta, .float-wa').forEach((el) => {
+      let tx = 0, ty = 0, cx = 0, cy = 0, raf = null;
+
+      const step = () => {
+        cx += (tx - cx) * 0.18;
+        cy += (ty - cy) * 0.18;
+        el.style.translate = `${cx.toFixed(2)}px ${cy.toFixed(2)}px`;
+        if (Math.abs(tx - cx) > 0.05 || Math.abs(ty - cy) > 0.05) {
+          raf = requestAnimationFrame(step);
+        } else {
+          raf = null;
+          if (!tx && !ty) el.style.translate = '';
+        }
+      };
+      const go = () => { if (raf === null) raf = requestAnimationFrame(step); };
+
+      el.addEventListener('mousemove', (e) => {
+        const r = el.getBoundingClientRect();
+        tx = (e.clientX - (r.left + r.width / 2)) * 0.22;
+        ty = (e.clientY - (r.top + r.height / 2)) * 0.32;
+        go();
+      });
+      el.addEventListener('mouseleave', () => { tx = 0; ty = 0; go(); });
+    });
+  };
+
   /* ---------- Boot ---------- */
   document.addEventListener('DOMContentLoaded', () => {
     wireLinks();
@@ -622,5 +687,6 @@
     initStage();
     initServices();
     initReveals();
+    initMagnetic();
   });
 })();

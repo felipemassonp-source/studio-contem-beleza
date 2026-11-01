@@ -24,9 +24,12 @@
         <stop offset="55%" stop-color="#A2605F"/>
         <stop offset="100%" stop-color="#8A4A52"/>
       </linearGradient>
-      <symbol id="bf" viewBox="0 0 120 110">
-        <path d="M30 96 C40 86 50 70 56 52 C50 30 58 10 76 10 C96 10 100 34 86 50 C78 58 64 60 58 56 C74 56 98 62 96 82 C94 100 72 104 62 92 C56 84 56 72 58 62" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
-        <path d="M30 96 C22 80 14 72 6 70 M30 96 C20 88 12 86 4 88" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+      <symbol id="bf" viewBox="8 10 210 244">
+        <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+          <path stroke-width="7" d="M92 222 C66 196 50 160 55 130 C60 90 80 40 104 37 C124 34 136 62 133 100 C130 140 114 180 100 202 C120 160 150 90 166 50 C174 28 178 16 184 16 C200 16 212 46 208 82 C204 112 186 134 166 144 C152 150 138 152 140 144 C142 136 160 136 176 144 C200 156 214 176 211 196 C208 228 192 250 168 249 C144 248 120 240 92 222"/>
+          <path stroke-width="5" d="M92 222 C84 230 86 246 94 246 C102 246 100 232 92 222"/>
+          <path stroke-width="3.5" d="M86 206 C64 182 36 150 13 129 M86 206 C66 186 42 162 22 142"/>
+        </g>
       </symbol>
     </defs>
   </svg>
@@ -54,15 +57,19 @@
         <!-- The arch window: holds the frame sequence -->
         <div class="stage-window" id="stageWindow">
           <canvas id="stageCanvas" aria-hidden="true"></canvas>
+          <!-- Brand mark shown inside the arch until the visitor starts scrolling -->
+          <div class="stage-mark" id="stageMark" aria-hidden="true">
+            <svg class="mark-bf" id="markBf" viewBox="8 10 210 244">
+              <path pathLength="1" d="M92 222 C66 196 50 160 55 130 C60 90 80 40 104 37 C124 34 136 62 133 100 C130 140 114 180 100 202 C120 160 150 90 166 50 C174 28 178 16 184 16 C200 16 212 46 208 82 C204 112 186 134 166 144 C152 150 138 152 140 144 C142 136 160 136 176 144 C200 156 214 176 211 196 C208 228 192 250 168 249 C144 248 120 240 92 222"/>
+              <path pathLength="1" class="bf-tail" d="M92 222 C84 230 86 246 94 246 C102 246 100 232 92 222"/>
+              <path pathLength="1" class="bf-ant" d="M86 206 C64 182 36 150 13 129 M86 206 C66 186 42 162 22 142"/>
+            </svg>
+          </div>
           <div class="stage-shade" id="stageShade"></div>
         </div>
 
         <!-- Hero lockup (mirrors the logo) -->
         <div class="hero-top" id="heroTop">
-          <svg class="hero-bf" viewBox="0 0 120 110" aria-hidden="true">
-            <path pathLength="1" d="M30 96 C40 86 50 70 56 52 C50 30 58 10 76 10 C96 10 100 34 86 50 C78 58 64 60 58 56 C74 56 98 62 96 82 C94 100 72 104 62 92 C56 84 56 72 58 62"/>
-            <path pathLength="1" class="bf-ant" d="M30 96 C22 80 14 72 6 70 M30 96 C20 88 12 86 4 88"/>
-          </svg>
           <p class="hero-kicker">Stúdio</p>
         </div>
 
@@ -136,7 +143,7 @@
 
         <div class="svc-grid">
           <div class="svc-visual" aria-hidden="true">
-            <div class="svc-arch">
+            <div class="svc-arch reveal reveal-arch">
               <img src="assets/service-alongamento.jpg" class="is-on" data-i="0" alt="">
               <img src="assets/service-banho-gel.jpg" data-i="1" alt="" loading="lazy">
               <img src="assets/service-esmaltacao.jpg" data-i="2" alt="" loading="lazy">
